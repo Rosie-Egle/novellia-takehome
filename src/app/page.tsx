@@ -1,9 +1,7 @@
 import { Button, Typography, Box } from "@mui/material";
-// import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    // <main className={styles.main}>
     <Box
       display="flex"
       flexDirection="column"
@@ -50,6 +48,5 @@ export default function Home() {
         </Button>
       </Box>
     </Box>
-    // </main>
   );
 }
