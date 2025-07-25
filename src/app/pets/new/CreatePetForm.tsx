@@ -14,18 +14,21 @@ import {
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useCreatePet, CreatePetRequest } from "../hooks/useCreatePet";
-
-const animalTypeOptions = [
-  { value: "DOG", label: "Dog" },
-  { value: "CAT", label: "Cat" },
-  { value: "BIRD", label: "Bird" },
-  { value: "HAMSTER", label: "Hamster" },
-  { value: "HORSE", label: "Horse" },
-  { value: "OTHER", label: "Other" },
-];
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { animalTypeOptions } from "@/app/options";
 
 export default function CreatePetForm() {
-  const { mutate: createPet, isPending } = useCreatePet();
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  const { mutate: createPet, isPending } = useCreatePet({
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["pets"] });
+      router.push(`/pets/${data.id}`);
+    },
+  });
+
   type FormValues = Omit<CreatePetRequest, "dob"> & { dob: Date | null };
   const {
     handleSubmit,

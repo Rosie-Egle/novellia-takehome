@@ -1,20 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
 
-export type CreatePetRequest = {
+export type CreateVaccineRequest = {
   name: string;
-  animalType: string;
-  ownerName: string;
-  dob: Date;
+  dateReceived: Date;
+  petId: string;
 };
 
-export type CreatePetProps = {
-  onSuccess: (data: { id: string }) => void;
+export type CreateVaccineProps = {
+  onSuccess: () => void;
 };
 
-export const useCreatePet = ({ onSuccess }: CreatePetProps) => {
+export const useCreateVaccine = ({ onSuccess }: CreateVaccineProps) => {
   return useMutation({
-    mutationFn: async (request: CreatePetRequest) => {
-      const response = await fetch("/api/pets", {
+    mutationFn: async (request: CreateVaccineRequest) => {
+      const response = await fetch("/api/vaccines", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -5,6 +5,7 @@ export const useGetAllPets = () => {
     queryKey: ["pets"],
     queryFn: async () => {
       const response = await fetch("/api/pets");
+
       return response.json();
     },
   });
