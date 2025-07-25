@@ -10,7 +10,6 @@ import PetCard from "../components/PetCard";
 export default function NewPetPage() {
   const { id } = useParams();
   const { data: pet, isLoading } = useGetPetById(id as string);
-  console.log("pet", pet);
   return (
     <Box
       display="flex"
@@ -19,7 +18,7 @@ export default function NewPetPage() {
       alignItems="center"
       gap={2}
     >
-      {isLoading ? <div>Loading...</div> : <PetCard pet={pet} />}
+      {isLoading ? <div>Loading...</div> : <PetCard pet={pet} isEditable />}
     </Box>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography, Chip } from "@mui/material";
 import { schema } from "../../../db/dbClient";
 import { useGetVaccinesByPetId } from "../../vaccines/hooks/useGetVaccinesByPetId";
 import { addYears, format } from "date-fns";
@@ -30,7 +30,13 @@ type VaccineWithExpiration = typeof schema.vaccine.$inferSelect & {
   isExpired: boolean;
 };
 
-export default function VaccineSection({ petId }: { petId: string }) {
+export default function VaccineSection({
+  petId,
+  isEditable = false,
+}: {
+  petId: string;
+  isEditable?: boolean;
+}) {
   const { data: vaccines } = useGetVaccinesByPetId(petId);
   const vaccinesWithExpiration: VaccineWithExpiration[] =
     vaccines && vaccines.length
@@ -51,9 +57,11 @@ export default function VaccineSection({ petId }: { petId: string }) {
 
   return (
     <Box>
+      <Typography variant="h5" marginBottom={2}>
+        Vaccines
+      </Typography>
       {vaccinesWithExpiration && vaccinesWithExpiration.length > 0 && (
         <>
-          <div>Vaccines:</div>
           {vaccinesWithExpiration
             .sort(
               (
@@ -64,17 +72,48 @@ export default function VaccineSection({ petId }: { petId: string }) {
                 new Date(a.dateReceived).getTime()
             )
             ?.map((vaccine: VaccineWithExpiration) => (
-              <div key={vaccine.id}>
-                <div>Name: {vaccine.name}</div>
-                {vaccine.isExpired ? <div>Expired</div> : null}
-                <div>
-                  Date Received: {format(vaccine.dateReceived, "MM/dd/yyyy")}
-                </div>
-              </div>
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-between"
+                key={vaccine.id}
+                marginBottom={1}
+              >
+                <Box display="flex" flexDirection="row" gap={1}>
+                  <Typography>{vaccine.name}</Typography>
+                  {vaccine.isExpired ? (
+                    <Chip
+                      label="Expired"
+                      color="error"
+                      size="small"
+                      variant="outlined"
+                    />
+                  ) : null}
+                </Box>
+                <Typography>
+                  {format(vaccine.dateReceived, "MM/dd/yyyy")}
+                </Typography>
+              </Box>
             ))}
         </>
       )}
-      <Button href={`/pets/${petId}/vaccine/new`}>Add Vaccine</Button>
+      {isEditable && (
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{
+            borderRadius: "8px",
+            marginTop: 4,
+            marginBottom: 2,
+            padding: "8px 16px",
+            textTransform: "none",
+            width: "100%",
+          }}
+          href={`/pets/${petId}/vaccine/new`}
+        >
+          Add Vaccine
+        </Button>
+      )}
     </Box>
   );
 }
