@@ -2,7 +2,7 @@
 
 ## Demo
 
-Walk through of the feature set on Loom
+[Walk through of the feature set on Loom](https://www.loom.com/share/2dbdf76d3170415589107e181c8f2f35?sid=b51f68c0-75e0-4d4c-9c42-d8767a12d8ad)
 
 ## Launching the Project
 
@@ -35,8 +35,6 @@ make start
 - Vite + React - Vite is quick, quick, quick and I love the HMR that is built-in
 
 ## Technical Decisions
-
-### Data Structures
 
 ### How I Modeled the Data
 
@@ -183,7 +181,7 @@ Focuses of the routing and page structure:
 
 **UI**
 
-- They styles are very slapdash atm, in order to make it a production level app they would need to be drastically improved
+- The styles are very slapdash atm, in order to make it a production level app they would need to be drastically improved
 - Add navigation
 - Add error handling in the forms, right now if the API fails the user won't know
 - Add loading states when fetching/posting data so the user knows something is happening
